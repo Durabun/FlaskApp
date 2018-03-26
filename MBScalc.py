@@ -10,14 +10,14 @@ import os, time, glob
 h = (6.626*10**-34)/(2*np.pi)
 
 def dij(ki,kj):
-        return 0.5*np.matrix(((1+kj/ki,1-kj/ki),(1-kj/ki,1+kj/ki)))
+	return 0.5*np.matrix(((1+kj/ki,1-kj/ki),(1-kj/ki,1+kj/ki)))
 def Pi(ki,xi):
-        return np.matrix(((np.exp(-(1j)*ki*xi),0),(0,np.exp((1j)*ki*xi))))
+	return np.matrix(((np.exp(-(1j)*ki*xi),0),(0,np.exp((1j)*ki*xi))))
 def Pj(kj,xj):
-        return np.matrix(((np.exp((1j)*kj*xj),0),(0,np.exp(-(1j)*kj*xj))))
+	return np.matrix(((np.exp((1j)*kj*xj),0),(0,np.exp(-(1j)*kj*xj))))
 
 def K(m,E,V):
-        return cmath.sqrt((2*m*(E-V)/h**2))
+	return cmath.sqrt((2*m*(E-V)/h**2))
 
 def CalculateCoeff(m,E,n,S,V,X):
 	
@@ -31,11 +31,11 @@ def CalculateCoeff(m,E,n,S,V,X):
 	for i in range(S):
 	#       print(Q)
 		if i == n:
-		        j = 0
-		        N = dij(K(m,E,V[i]),K(m,E,V[j]))
-		        #These are the last 2 matrices which "return" to the original wave
-		        N = np.dot(N,Pj(K(m,E,V[j]),X[j]))
-		        break
+			j = 0
+			N = dij(K(m,E,V[i]),K(m,E,V[j]))
+			#These are the last 2 matrices which "return" to the original wave
+			N = np.dot(N,Pj(K(m,E,V[j]),X[j]))
+			break
 		#Progresses through the first s-2 matrices
 		M = dij(K(m,E,V[i]),K(m,E,V[j]))
 		M = np.dot(M,Pi(K(m,E,V[j]),X[i]))
@@ -75,15 +75,18 @@ def plots(T,R,k,x):
 	plt.xlabel('Angstrom')
 	plt.ylabel('Probability Amplitude')
 	plt.legend(["Incoming","Reflected","Transmitted"])
+	#plotfile = "hello"
 	if not os.path.isdir('static'):
-       		os.mkdir('static')
+		os.mkdir('static')
 	else:
         # Remove old plot files
-        	for filename in glob.glob(os.path.join('static', '*.png')):
-            		os.remove(filename)
+        for filename in glob.glob(os.path.join('static', '*.png')):
+			os.remove(filename)
     # Use time since Jan 1, 1970 in filename in order make
     # a unique filename that the browser has not chached
-    	plotfile = os.path.join('static', str(time.time()) + '.png')
-    	plt.savefig(plotfile)
-    	return plotfile
+	plotfile = os.path.join('static', str(time.time()) + '.png')
+    plt.savefig(plotfile)
+	return plotfile
+
+
 
